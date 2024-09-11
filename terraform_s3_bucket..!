@@ -1,0 +1,32 @@
+provider "aws" {
+  region = "us-east-1"  # or any other region you are using
+}
+
+resource "aws_s3_bucket" "vinaykumar143" {
+  bucket = "vinaykumar143"
+}
+
+resource "aws_s3_bucket_public_access_block" "vinaykumar143" {
+  bucket = aws_s3_bucket.vinaykumar143.bucket
+
+  block_public_acls   = false
+  block_public_policy = false
+  ignore_public_acls  = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "vinaykumar143_policy" {
+  bucket = aws_s3_bucket.vinaykumar143.bucket
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Principal = "*"
+        Action   = "s3:GetObject"
+        Resource = "${aws_s3_bucket.vinaykumar143.arn}/*"
+      }
+    ]
+  })
+}

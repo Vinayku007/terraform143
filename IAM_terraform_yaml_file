@@ -1,0 +1,22 @@
+provider "aws" {
+  region = "us-east-1"  # Using the us-east-1 region
+}
+
+resource "aws_iam_policy" "example" {
+  name        = "terraformIampolicy"  # Updated custom policy name
+  description = "A test policy named terraformIampolicy"
+  policy      = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "elasticfilesystem:*",
+          "glacier:*",
+          "ec2:*"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
+}

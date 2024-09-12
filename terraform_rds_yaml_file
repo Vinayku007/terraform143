@@ -1,0 +1,35 @@
+provider "aws" {
+  region = "us-east-1"  # AWS Free Tier region
+}
+
+variable "db_password" {
+  description = "The password for the RDS instance"
+  type        = string
+  sensitive   = true
+}
+
+resource "aws_db_instance" "vinaykumar_RDS" {
+  identifier         = "vinaykumar-rds-instance"  # Updated instance identifier
+  instance_class     = "db.t3.micro"  # Free Tier eligible instance class
+  engine             = "postgres"
+  engine_version     = "12.11"  # Free Tier eligible PostgreSQL version...*change version if not working*
+  username           = "vinaykumar143"
+  password           = var.db_password
+  allocated_storage  = 20  # Free Tier allows up to 20 GB
+  storage_type       = "gp2"  # Free Tier SSD storage type
+  port               = 5432
+  skip_final_snapshot = true  # Avoids charges for snapshots
+  backup_retention_period = 1  # Retain backups for 1 day (Free Tier allows automated backups)
+
+  tags = {
+    Name        = "vinaykumar_RDS"
+    Environment = "FreeTier"
+  }
+}
+
+# create another file inside RDS folder...
+variable "db_password" {
+  description = "The password for the RDS instance"
+  type        = string
+  sensitive   = true
+}
